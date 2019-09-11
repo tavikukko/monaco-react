@@ -6,6 +6,7 @@
   "module": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
+    "prepare": "npm run build",
     "lint": "npx eslint src",
     "build": "npx babel src --out-dir lib && cp ./src/index.d.ts ./lib/",
     "prepublish": "npm test && npm run lint && npm run build",
