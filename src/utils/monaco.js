@@ -67,11 +67,21 @@ class Monaco {
 
       document.addEventListener('monaco_init', this.handleMainScriptLoad);
 
-      const mainScript = this.createMainScript();
+      // if monacoLoader url is overrided and set to empty,
+      // it means loader.js is already present
+      if (this.__config.urls.monacoLoader === '') {
+        window.require.config({ paths: { 'vs': this.__config.urls.monacoBase } });
+        window.require(['vs/editor/editor.main'], function () {
+          document.dispatchEvent(new Event('monaco_init'));
+        });
+      }
+      else {
+        const mainScript = this.createMainScript();
 
-      const loaderScript = this.createMonacoLoaderScript(mainScript);
+        const loaderScript = this.createMonacoLoaderScript(mainScript);
 
-      this.injectScripts(loaderScript);
+        this.injectScripts(loaderScript);
+      }
     }
 
     this.isInitialized = true;
