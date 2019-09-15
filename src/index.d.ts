@@ -173,6 +173,7 @@ export type Monaco = any;
 
 declare namespace monaco {
   function init(): Promise<Monaco>;
+  function config(object): any;
 }
 
 export { monaco };
