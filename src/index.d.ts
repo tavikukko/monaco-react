@@ -1,6 +1,7 @@
 // TODO: the whole content should be improved in the next version.
 
 import * as React from "react";
+import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
 
 type Theme =
   | "dark"
@@ -10,7 +11,7 @@ type Theme =
 
 export type EditorDidMount = (
   getEditorValue: () => string,
-  editor: any,
+  editor: monacoEditor.editor.IStandaloneCodeEditor,
 ) => void;
 
 export interface EditorProps {
@@ -57,9 +58,9 @@ export interface EditorProps {
   loading?: React.ElementType | string;
 
   /**
-   * IEditorOptions
+   * IEditorConstructionOptions
    */
-  options?: object;
+  options?: monacoEditor.editor.IEditorConstructionOptions;
 }
 
 declare const Editor: React.FC<EditorProps>;
@@ -69,13 +70,13 @@ export default Editor;
 // Controlled Editor
 
 export type ControlledEditorOnChange = (
-  ev: any,
+  ev: monacoEditor.editor.IModelContentChangedEvent,
   value: string | undefined,
-) => string | undefined;
+) => string | void;
 
 export interface ControlledEditorProps extends EditorProps {
   /**
-   * Signature: function(ev: any, value: string | undefined) => string | undefined;
+   * Signature: function(ev: monacoEditor.editor.IModelContentChangedEvent, value: string | undefined) => string | undefined;
    * onChange method of monaco editor. It will be called right after content of current model will be changed.
    * It gets two arguments: first one is the "event" object of monaco, second one the current value
    * NOTE: onChange can return the new value, which will be inserted to editor
@@ -92,7 +93,7 @@ export { ControlledEditor };
 export type DiffEditorDidMount = (
   getOriginalEditorValue: () => string,
   getModifiedEditorValue: () => string,
-  editor: any,
+  editor: monacoEditor.editor.IStandaloneDiffEditor,
 ) => void;
 
 export interface DiffEditorProps {
@@ -155,12 +156,12 @@ export interface DiffEditorProps {
   /**
    * The loading screen before the editor will be loaded. Defaults 'loading...'
    */
-  loading?: React.ElementType | string;
+  loading?: React.ReactNode | string;
 
   /**
-   * IDiffEditorOptions
+   * IDiffEditorConstructionOptions
    */
-  options?: object;
+  options?: monacoEditor.editor.IDiffEditorConstructionOptions;
 }
 
 declare const DiffEditor: React.FC<DiffEditorProps>;
@@ -169,11 +170,16 @@ export { DiffEditor };
 
 // monaco
 
-export type Monaco = any;
+export type Monaco = typeof monacoEditor;
 
 declare namespace monaco {
   function init(): Promise<Monaco>;
-  function config(object): any;
+  function config(params: {
+    urls: {
+      monacoLoader?: string,
+      monacoBase?: string
+    }
+  }): void
 }
 
 export { monaco };

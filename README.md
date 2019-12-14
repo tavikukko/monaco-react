@@ -1,7 +1,7 @@
 # monaco-react
 Monaco Editor for React
 
-[![NPM](https://nodei.co/npm/@monaco-editor/react.png.png)](https://nodei.co/npm/@monaco-editor/react/)
+[![NPM](https://nodei.co/npm/@monaco-editor/react.png)](https://nodei.co/npm/@monaco-editor/react/)
 
 ## Synopsis
 
@@ -181,9 +181,11 @@ import { monaco } from '@monaco-editor/react';
 
 monaco
   .init()
-  .then(monaco => /* here is the instance of monaco, so you can use the `monaco.languages` or whatever you want */)
+  .then(monaco => {/* here is the instance of monaco, so you can use the `monaco.languages` or whatever you want */})
   .catch(error => console.error('An error occurred during initialization of Monaco: ', error));
 ```
+
+You can play with it [here](https://codesandbox.io/s/monaco-editorreact---monaco-instance-nrris?fontsize=14)
 
 #### Config
 
@@ -221,7 +223,7 @@ function App() {
     // in this component whenever you want
   }
 
-  function listenEditorChagnes() {
+  function listenEditorChanges() {
     editorRef.current.onDidChangeModelContent(ev => {
       console.log(editorRef.current.getValue());
     });
@@ -229,7 +231,7 @@ function App() {
 
   return (
     <>
-      <button onClick={listenEditorChagnes} disabled={!!editorRef.current}>
+      <button onClick={listenEditorChanges} disabled={!!editorRef.current}>
         Press to listen editor changes (see console)
       </button>
       <Editor
@@ -266,21 +268,21 @@ import ReactDOM from "react-dom";
 import { ControlledEditor } from "@monaco-editor/react";
 
 const BAD_WORD = "eval";
-const WORNING_MESSAGE = " <- hey man, what's this?";
+const WARNING_MESSAGE = " <- hey man, what's this?";
 
 function App() {
   const handleEditorChange = (ev, value) => {
-    return value.includes(BAD_WORD) && !value.includes(WORNING_MESSAGE)
-      ? value.replace(BAD_WORD, BAD_WORD + WORNING_MESSAGE)
-      : value.includes(WORNING_MESSAGE) && !value.includes(BAD_WORD)
-        ? value.replace(WORNING_MESSAGE, "")
+    return value.includes(BAD_WORD) && !value.includes(WARNING_MESSAGE)
+      ? value.replace(BAD_WORD, BAD_WORD + WARNING_MESSAGE)
+      : value.includes(WARNING_MESSAGE) && !value.includes(BAD_WORD)
+        ? value.replace(WARNING_MESSAGE, "")
         : value;
   };
 
   return (
     <ControlledEditor
       height="90vh"
-      value={"// try to write e%v%a%l somewere 😈 \n"}
+      value={"// try to write e%v%a%l somewhere 😈 \n"}
       onChange={handleEditorChange}
       language="javascript"
     />
@@ -300,17 +302,17 @@ import ReactDOM from "react-dom";
 import { ControlledEditor } from "@monaco-editor/react";
 
 const BAD_WORD = "eval";
-const WORNING_MESSAGE = " <- hey man, what's this?";
+const WARNING_MESSAGE = " <- hey man, what's this?";
 
 function App() {
-  const [value, setValue] = useState("// try to write e%v%a%l somewere 😈 \n");
+  const [value, setValue] = useState("// try to write e%v%a%l somewhere 😈 \n");
 
   const handleEditorChange = (ev, value) => {
     setValue(
-      value.includes(BAD_WORD) && !value.includes(WORNING_MESSAGE)
-        ? value.replace(BAD_WORD, BAD_WORD + WORNING_MESSAGE)
-        : value.includes(WORNING_MESSAGE) && !value.includes(BAD_WORD)
-          ? value.replace(WORNING_MESSAGE, "")
+      value.includes(BAD_WORD) && !value.includes(WARNING_MESSAGE)
+        ? value.replace(BAD_WORD, BAD_WORD + WARNING_MESSAGE)
+        : value.includes(WARNING_MESSAGE) && !value.includes(BAD_WORD)
+          ? value.replace(WARNING_MESSAGE, "")
           : value
     );
   };
@@ -339,7 +341,7 @@ import { ControlledEditor } from "@monaco-editor/react";
 
 function App() {
   const handleEditorChange = (ev, value) => {
-    return `"it dosn't matter what you are writing, I am staying here!!!"`;
+    return `"it doesn't matter what you are writing, I am staying here!!!"`;
   };
 
   return (

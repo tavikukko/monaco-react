@@ -1,16 +1,15 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import Loading from '../Loading';
+import MonacoContainer from '../MonacoContainer';
 
 import { monaco, noop } from '../utils';
 import { useMount, useUpdate } from '../utils/hooks';
 
 import themes from '../config/themes';
-import styles from './styles';
 
 const Editor =
-  ({ value, language, editorDidMount, theme, line, width, height, loading, options }) =>
+  ({ value, language, editorDidMount, theme, line, width, height, loading, options, _isControlledMode }) =>
 {
   const [isEditorReady, setIsEditorReady] = useState(false);
   const [isMonacoMounting, setIsMonacoMounting] = useState(true);
@@ -36,11 +35,19 @@ const Editor =
         text: value,
       }]);
 
+      if (_isControlledMode) {
+        const model = editorRef.current.getModel();
+
+        model.forceTokenization(model.getLineCount());
+      }
+
       editorRef.current.pushUndoStop();
     }
   }, [value], isEditorReady);
 
   useUpdate(_ => {
+    // set last value by .setValue method before changing the language
+    editorRef.current.setValue(value);
     monacoRef.current.editor.setModelLanguage(editorRef.current.getModel(), language);
   }, [language], isEditorReady);
 
@@ -76,17 +83,15 @@ const Editor =
     !isMonacoMounting && !isEditorReady && createEditor();
   }, [isMonacoMounting, isEditorReady, createEditor]);
 
-  const removeEditor = _ => editorRef.current.dispose();
+  const removeEditor = _ => editorRef.current && editorRef.current.dispose();
 
-  return (
-    <section style={{ ...styles.wrapper, width, height }}>
-      {!isEditorReady && <Loading content={loading} />}
-      <div
-        ref={containerRef}
-        style={{ ...styles.fullWidth, ...(!isEditorReady && styles.hide) }}
-      />
-    </section>
-  );
+  return <MonacoContainer
+    width={width}
+    height={height}
+    isEditorReady={isEditorReady}
+    loading={loading}
+    _ref={containerRef}
+  />;
 };
 
 Editor.propTypes = {
@@ -99,6 +104,7 @@ Editor.propTypes = {
   height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   loading: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
   options: PropTypes.object,
+  _isControlledMode: PropTypes.bool,
 };
 
 Editor.defaultProps = {
@@ -108,6 +114,7 @@ Editor.defaultProps = {
   height: '100%',
   loading: 'Loading...',
   options: {},
+  _isControlledMode: false,
 };
 
 export default Editor;

@@ -1,5 +1,65 @@
 ### Versions
 
+## 2.3.5
+###### *Dec 10, 2019*
+
+- optimize babel build with runtime transform
+
+## 2.3.4
+###### *Dec 10, 2019*
+
+- add xxx.spec.js.snap files to npmignore
+
+## 2.3.2 & 3
+###### *Dec 10, 2019*
+
+- fix typo in npmignore
+
+## 2.3.1
+###### *Dec 10, 2019*
+
+- add unnecessary files to npmignore
+
+## 2.3.0
+###### *Nov 9, 2019*
+
+- prevent onchange in case of undo/redo (controlled editor)
+- create separate component for MonacoContainer
+
+## 2.2.0
+###### *Nov 9, 2019*
+
+- force additional tokenization in controlled mode to avoid blinking
+
+## 2.1.1
+###### *Oct 25, 2019*
+
+- fix "options" types
+
+## 2.1.0
+###### *Oct 25, 2019*
+
+- add monaco-editor as peer dependency for proper type definitions
+- write more proper types
+
+## 2.0.0
+###### *Oct 9, 2019*
+
+- set the default version of monaco to 0.18.1
+- set last value by .setValue method before changing the language
+
+## 1.2.3
+###### *Oct 7, 2019*
+
+- (TYPES) add "void" to the "ControlledEditorOnChange" return types
+
+## 1.2.2
+###### *Oct 3, 2019*
+
+- update dev dependencies
+- check editor existence in "removeEditor" function
+- replace "jest-dom" with "@testing-library/jest-dom"
+
 ## 1.2.1
 ###### *Aug 20, 2019*
 
